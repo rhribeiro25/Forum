@@ -1,0 +1,13 @@
+package br.com.rhribeiro25.forum
+
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.cache.annotation.EnableCaching
+
+@SpringBootApplication
+@EnableCaching
+class ForumApplication
+
+fun main(args: Array<String>) {
+	runApplication<br.com.rhribeiro25.forum.ForumApplication>(*args)
+}
