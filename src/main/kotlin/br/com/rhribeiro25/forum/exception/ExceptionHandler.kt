@@ -1,6 +1,5 @@
 package br.com.rhribeiro25.forum.exception
 
-import br.com.rhribeiro25.forum.dto.ErrorView
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletRequest
 @RestControllerAdvice
 class ExceptionHandler {
 
-    @br.com.rhribeiro25.forum.exception.ExceptionHandler(br.com.rhribeiro25.forum.exception.NotFoundException::class)
+    @ExceptionHandler(NotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun handleNotFound(
         exception: br.com.rhribeiro25.forum.exception.NotFoundException,
@@ -25,7 +24,7 @@ class ExceptionHandler {
         )
     }
 
-    @br.com.rhribeiro25.forum.exception.ExceptionHandler(MethodArgumentNotValidException::class)
+    @ExceptionHandler(MethodArgumentNotValidException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleValidationError(
             exception: MethodArgumentNotValidException,
@@ -43,7 +42,7 @@ class ExceptionHandler {
         )
     }
 
-    @br.com.rhribeiro25.forum.exception.ExceptionHandler(Exception::class)
+    @ExceptionHandler(Exception::class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     fun handleServerError(
             exception: Exception,
