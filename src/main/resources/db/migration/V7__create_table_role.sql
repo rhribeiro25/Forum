@@ -1,7 +1,7 @@
 CREATE TABLE role(
     `id` BIGINT NOT NULL AUTO_INCREMENT,
-    `nome` VARCHAR(50) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
     PRIMARY KEY(`id`)
 );
 
-INSERT INTO `role` (`id`, `nome`) VALUES (1, 'LEITURA_ESCRITA')
+INSERT INTO `role` (`id`, `name`) VALUES (1, 'LEITURA_ESCRITA')

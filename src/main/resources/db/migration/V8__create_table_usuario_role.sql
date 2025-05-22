@@ -1,10 +1,10 @@
-CREATE TABLE usuario_role(
+CREATE TABLE user_role(
     `id` BIGINT NOT NULL AUTO_INCREMENT,
-    `usuario_id` BIGINT NOT NULL,
+    `user_id` BIGINT NOT NULL,
     `role_id` BIGINT NOT NULL,
     PRIMARY KEY(`id`),
-    FOREIGN KEY(`usuario_id`) REFERENCES `usuario` (`id`),
+    FOREIGN KEY(`user_id`) REFERENCES `user` (`id`),
     FOREIGN KEY(`role_id`) REFERENCES `role` (`id`)
 );
 
-INSERT INTO `usuario_role` (`id`, `usuario_id`, `role_id`) VALUES (1, 1, 1);
+INSERT INTO `user_role` (`id`, `user_id`, `role_id`) VALUES (1, 1, 1);

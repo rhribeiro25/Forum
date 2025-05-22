@@ -1,8 +1,8 @@
-create table usuario(
+create table user(
     id bigint not null auto_increment,
-    nome varchar(50) not null,
+    name varchar(50) not null,
     email varchar(50) not null,
     primary key(id)
 );
 
-insert into usuario values(1, 'Ana da Silva', 'ana@email.com');
+insert into user values(1, 'Ana da Silva', 'ana@email.com');

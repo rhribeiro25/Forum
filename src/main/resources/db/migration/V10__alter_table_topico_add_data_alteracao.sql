@@ -1,1 +1,1 @@
-alter table topico add column data_alteracao date
+alter table topic add column update_date date
