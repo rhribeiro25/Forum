@@ -9,5 +9,5 @@ import org.springframework.cache.annotation.EnableCaching
 class ForumApplication
 
 fun main(args: Array<String>) {
-	runApplication<br.com.rhribeiro25.forum.ForumApplication>(*args)
+	runApplication<ForumApplication>(*args)
 }
