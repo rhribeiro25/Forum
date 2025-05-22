@@ -7,11 +7,11 @@ import javax.persistence.*
 data class Response(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
-    val mensagem: String,
-    val dataCriacao: LocalDateTime = LocalDateTime.now(),
+    val message: String,
+    val createDate: LocalDateTime = LocalDateTime.now(),
     @ManyToOne
-        val autor: br.com.rhribeiro25.forum.model.User,
+        val author: User,
     @ManyToOne
-        val topico: br.com.rhribeiro25.forum.model.Topico,
-    val solucao: Boolean
+        val topic: Topic,
+    val solution: Boolean
 )

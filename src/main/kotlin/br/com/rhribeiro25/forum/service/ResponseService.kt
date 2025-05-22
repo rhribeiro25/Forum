@@ -13,7 +13,7 @@ class ResponseService(
     fun responder(response: br.com.rhribeiro25.forum.model.Response) {
         responseRepository.save(response)
 
-        val usuario = userService.buscarPorId(requireNotNull(response.autor.id))
+        val usuario = userService.buscarPorId(requireNotNull(response.author.id))
 
         emailService.enviar(
             subject = "Alura - Tópico Respondido",

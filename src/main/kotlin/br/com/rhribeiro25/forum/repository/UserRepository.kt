@@ -1,8 +1,9 @@
 package br.com.rhribeiro25.forum.repository
 
+import br.com.rhribeiro25.forum.model.User
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface UserRepository: JpaRepository<br.com.rhribeiro25.forum.model.User, Long> {
+interface UserRepository: JpaRepository<User, Long> {
 
-    fun findByEmail(username: String?): br.com.rhribeiro25.forum.model.User?
+    fun findByEmail(userName: String?): User?
 }

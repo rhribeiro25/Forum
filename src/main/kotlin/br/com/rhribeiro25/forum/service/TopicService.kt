@@ -11,16 +11,16 @@ class TopicService(
     private val repository: br.com.rhribeiro25.forum.repository.TopicRepository,
     private val topicViewMapper: br.com.rhribeiro25.forum.mapper.TopicViewMapper,
     private val topicFormMapper: br.com.rhribeiro25.forum.mapper.TopicFormMapper,
-    private val notFoundMessage: String = "Topico nao encontrado!"
+    private val notFoundMessage: String = "Topic nao encontrado!"
 ) {
 
     @Cacheable(cacheNames = ["Topicos"], key = "#root.method.name")
     fun listar(
         nomeCurso: String?,
         paginacao: Pageable
-    ): Page<br.com.rhribeiro25.forum.dto.TopicoView> {
+    ): Page<br.com.rhribeiro25.forum.dto.TopicView> {
         val topicos = nomeCurso?.let {
-            repository.findByCursoNome(nomeCurso, paginacao)
+            repository.findByCourseName(nomeCurso, paginacao)
         } ?: repository.findAll(paginacao)
 
         return topicos.map { t ->
@@ -28,25 +28,25 @@ class TopicService(
         }
     }
 
-    fun buscarPorId(id: Long): br.com.rhribeiro25.forum.dto.TopicoView {
+    fun buscarPorId(id: Long): br.com.rhribeiro25.forum.dto.TopicView {
         val topico = repository.findById(id)
                 .orElseThrow{ br.com.rhribeiro25.forum.exception.NotFoundException(notFoundMessage) }
         return topicViewMapper.map(topico)
     }
 
     @CacheEvict(cacheNames = ["Topicos"], allEntries = true)
-    fun cadastrar(form: br.com.rhribeiro25.forum.dto.NewTopicForm): br.com.rhribeiro25.forum.dto.TopicoView {
+    fun cadastrar(form: br.com.rhribeiro25.forum.dto.NewTopicForm): br.com.rhribeiro25.forum.dto.TopicView {
         val topico = topicFormMapper.map(form)
         repository.save(topico)
         return topicViewMapper.map(topico)
     }
 
     @CacheEvict(cacheNames = ["Topicos"], allEntries = true)
-    fun atualizar(form: br.com.rhribeiro25.forum.dto.AuthorityTopicForm): br.com.rhribeiro25.forum.dto.TopicoView {
+    fun atualizar(form: br.com.rhribeiro25.forum.dto.AuthorityTopicForm): br.com.rhribeiro25.forum.dto.TopicView {
         val topico = repository.findById(form.id)
                 .orElseThrow{ br.com.rhribeiro25.forum.exception.NotFoundException(notFoundMessage) }
-        topico.titulo = form.titulo
-        topico.mensagem = form.mensagem
+        topico.title = form.title
+        topico.message = form.message
         return topicViewMapper.map(topico)
     }
 
@@ -56,6 +56,6 @@ class TopicService(
     }
 
     fun relatorio(): List<br.com.rhribeiro25.forum.dto.TopicPerCategoryDto> {
-        return repository.relatorio()
+        return repository.report()
     }
 }

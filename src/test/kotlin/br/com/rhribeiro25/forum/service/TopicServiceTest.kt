@@ -23,45 +23,45 @@ class TopicServiceTest {
 
     private val topicRepository: br.com.rhribeiro25.forum.repository.TopicRepository = mockk {
         every { findAll(pageable) } returns pages
-        every { findByCursoNome(any(), any()) } returns pages
+        every { findByCourseName(any(), any()) } returns pages
     }
 
     private val topicService = br.com.rhribeiro25.forum.service.TopicService(
         repository = topicRepository,
         topicViewMapper = topicViewMapper,
         topicFormMapper = topicFormMapper,
-        notFoundMessage = "Topico nao encontrado!"
+        notFoundMessage = "Topic nao encontrado!"
     )
 
     @Test
     fun `deve listar topico por nome do curso`() {
-        val slot = slot<br.com.rhribeiro25.forum.model.Topico>()
+        val slot = slot<br.com.rhribeiro25.forum.model.Topic>()
         every { topicViewMapper.map(capture(slot)) } returns topicoView
 
         topicService.listar("Kotlin Basico", pageable)
 
         verify(exactly = 0) { topicRepository.findAll(pageable) }
-        verify(exactly = 1) { topicRepository.findByCursoNome(any(), any()) }
+        verify(exactly = 1) { topicRepository.findByCourseName(any(), any()) }
         verify(exactly = 1) { topicViewMapper.map(any()) }
 
-        assertThat(slot.captured.titulo).isEqualTo(topico.titulo)
-        assertThat(slot.captured.mensagem).isEqualTo(topico.mensagem)
+        assertThat(slot.captured.title).isEqualTo(topico.title)
+        assertThat(slot.captured.message).isEqualTo(topico.message)
         assertThat(slot.captured.status).isEqualTo(topico.status)
     }
 
     @Test
     fun `deve listar todos os topicos quando nome do curso for nulo`() {
-        val slot = slot<br.com.rhribeiro25.forum.model.Topico>()
+        val slot = slot<br.com.rhribeiro25.forum.model.Topic>()
         every { topicViewMapper.map(capture(slot)) } returns topicoView
 
         topicService.listar(null, pageable)
 
         verify(exactly = 1) { topicRepository.findAll(pageable) }
-        verify(exactly = 0) { topicRepository.findByCursoNome(any(), any()) }
+        verify(exactly = 0) { topicRepository.findByCourseName(any(), any()) }
         verify(exactly = 1) { topicViewMapper.map(any()) }
 
-        assertThat(slot.captured.titulo).isEqualTo(topico.titulo)
-        assertThat(slot.captured.mensagem).isEqualTo(topico.mensagem)
+        assertThat(slot.captured.title).isEqualTo(topico.title)
+        assertThat(slot.captured.message).isEqualTo(topico.message)
         assertThat(slot.captured.status).isEqualTo(topico.status)
     }
 
@@ -73,6 +73,6 @@ class TopicServiceTest {
             topicService.buscarPorId(2)
         }
 
-        assertThat(actual.message).isEqualTo("Topico nao encontrado!")
+        assertThat(actual.message).isEqualTo("Topic nao encontrado!")
     }
 }

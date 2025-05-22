@@ -7,14 +7,14 @@ import java.time.LocalDate
 class TopicFormMapper(
     private val courseService: br.com.rhribeiro25.forum.service.CourseService,
     private val userService: br.com.rhribeiro25.forum.service.UserService
-): br.com.rhribeiro25.forum.mapper.Mapper<br.com.rhribeiro25.forum.dto.NewTopicForm, br.com.rhribeiro25.forum.model.Topico> {
-    override fun map(t: br.com.rhribeiro25.forum.dto.NewTopicForm): br.com.rhribeiro25.forum.model.Topico {
-        return br.com.rhribeiro25.forum.model.Topico(
-            titulo = t.titulo,
-            mensagem = t.mensagem,
-            course = courseService.buscarPorId(t.idCurso),
-            autor = userService.buscarPorId(t.idAutor),
-            dataAlteracao = LocalDate.now()
+): br.com.rhribeiro25.forum.mapper.Mapper<br.com.rhribeiro25.forum.dto.NewTopicForm, br.com.rhribeiro25.forum.model.Topic> {
+    override fun map(t: br.com.rhribeiro25.forum.dto.NewTopicForm): br.com.rhribeiro25.forum.model.Topic {
+        return br.com.rhribeiro25.forum.model.Topic(
+            title = t.title,
+            message = t.message,
+            course = courseService.buscarPorId(t.idCourse),
+            author = userService.buscarPorId(t.idAuthor),
+            updateDate = LocalDate.now()
         )
     }
 

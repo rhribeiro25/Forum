@@ -1,14 +1,16 @@
 package br.com.rhribeiro25.forum.repository
 
+import br.com.rhribeiro25.forum.dto.TopicPerCategoryDto
+import br.com.rhribeiro25.forum.model.Topic
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
-interface TopicRepository: JpaRepository<br.com.rhribeiro25.forum.model.Topico, Long> {
+interface TopicRepository: JpaRepository<Topic, Long> {
 
-    fun findByCursoNome(nomeCurso: String, paginacao: Pageable): Page<br.com.rhribeiro25.forum.model.Topico>
+    fun findByCourseName(courseName: String, pageable: Pageable): Page<Topic>
 
-    @Query("SELECT new br.com.alura.forum.dto.TopicPerCategoryDto(course.categoria, count(t)) FROM Topico t JOIN t.course course GROUP BY course.categoria")
-    fun relatorio(): List<br.com.rhribeiro25.forum.dto.TopicPerCategoryDto>
+    @Query("SELECT new TopicPerCategoryDto(course.category, count(t)) FROM Topic t JOIN t.course course GROUP BY course.category")
+    fun report(): List<TopicPerCategoryDto>
 }

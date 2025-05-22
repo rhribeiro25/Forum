@@ -9,6 +9,6 @@ import javax.persistence.Id
 data class Course(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
-        val nome: String,
-        val categoria: String
+        val name: String,
+        val category: String
 )

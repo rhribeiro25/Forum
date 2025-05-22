@@ -8,12 +8,12 @@ data class User(
 
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
-        val nome: String,
+        val name: String,
         val email: String,
         val password: String,
 
         @JsonIgnore
         @ManyToMany(fetch = FetchType.EAGER)
-        @JoinColumn(name = "usuario_role")
-        val role: List<br.com.rhribeiro25.forum.model.Role> = mutableListOf()
+        @JoinColumn(name = "user_role")
+        val role: List<Role> = mutableListOf()
 )

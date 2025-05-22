@@ -30,7 +30,7 @@ class TopicController(private val service: br.com.rhribeiro25.forum.service.Topi
     fun cadastrar(
         @RequestBody @Valid form: br.com.rhribeiro25.forum.dto.NewTopicForm,
         uriBuilder: UriComponentsBuilder
-    ): ResponseEntity<br.com.rhribeiro25.forum.dto.TopicoView> {
+    ): ResponseEntity<br.com.rhribeiro25.forum.dto.TopicView> {
         val topicoView = service.cadastrar(form)
         val uri = uriBuilder.path("/topicos/${topicoView.id}").build().toUri()
         return ResponseEntity.created(uri).body(topicoView)
@@ -38,7 +38,7 @@ class TopicController(private val service: br.com.rhribeiro25.forum.service.Topi
 
     @PutMapping
     @Transactional
-    fun atualizar(@RequestBody @Valid form: br.com.rhribeiro25.forum.dto.AuthorityTopicForm): ResponseEntity<br.com.rhribeiro25.forum.dto.TopicoView> {
+    fun atualizar(@RequestBody @Valid form: br.com.rhribeiro25.forum.dto.AuthorityTopicForm): ResponseEntity<br.com.rhribeiro25.forum.dto.TopicView> {
         val topicoView = service.atualizar(form)
         return ResponseEntity.ok(topicoView)
     }
