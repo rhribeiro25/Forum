@@ -1,46 +1,24 @@
 version: '3.8'
 
 services:
-  mysql:
+  database:
     image: mysql:8
-    container_name: mysql
+    container_name: database
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: forum
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - network
+      - ./database:/var/lib/mysql
 
-  redis:
+  cache:
     image: redis:6.2
-    container_name: redis
+    container_name: cache
     ports:
       - "6379:6379"
-    networks:
-      - network
-
-  microservice:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: forum-service
-    depends_on:
-      - mysql
-      - redis
-    ports:
-      - "8080:8080"
-    environment:
-      JAVA_OPTS: ""
-      PORT: 8080
-    networks:
-      - network
-
-volumes:
-  mysql_data:
 
 networks:
-  network:
+  default:
+    name: forum-net
     driver: bridge
