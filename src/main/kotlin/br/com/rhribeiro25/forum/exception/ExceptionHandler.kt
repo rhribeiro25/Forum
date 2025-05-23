@@ -1,5 +1,6 @@
 package br.com.rhribeiro25.forum.exception
 
+import br.com.rhribeiro25.forum.dto.ErrorView
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -13,10 +14,10 @@ class ExceptionHandler {
     @ExceptionHandler(NotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun handleNotFound(
-        exception: br.com.rhribeiro25.forum.exception.NotFoundException,
+        exception: NotFoundException,
         request: HttpServletRequest
-    ): br.com.rhribeiro25.forum.dto.ErrorView {
-        return br.com.rhribeiro25.forum.dto.ErrorView(
+    ): ErrorView {
+        return ErrorView(
             status = HttpStatus.NOT_FOUND.value(),
             error = HttpStatus.NOT_FOUND.name,
             message = exception.message,
@@ -29,12 +30,12 @@ class ExceptionHandler {
     fun handleValidationError(
             exception: MethodArgumentNotValidException,
             request: HttpServletRequest
-    ): br.com.rhribeiro25.forum.dto.ErrorView {
+    ): ErrorView {
         val errorMessage = HashMap<String, String?>()
         exception.bindingResult.fieldErrors.forEach{
             e -> errorMessage.put(e.field, e.defaultMessage)
         }
-        return br.com.rhribeiro25.forum.dto.ErrorView(
+        return ErrorView(
             status = HttpStatus.BAD_REQUEST.value(),
             error = HttpStatus.BAD_REQUEST.name,
             message = errorMessage.toString(),
@@ -47,8 +48,8 @@ class ExceptionHandler {
     fun handleServerError(
             exception: Exception,
             request: HttpServletRequest
-    ): br.com.rhribeiro25.forum.dto.ErrorView {
-        return br.com.rhribeiro25.forum.dto.ErrorView(
+    ): ErrorView {
+        return ErrorView(
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
             error = HttpStatus.INTERNAL_SERVER_ERROR.name,
             message = exception.message,

@@ -38,7 +38,7 @@ class TopicServiceTest {
         val slot = slot<br.com.rhribeiro25.forum.model.Topic>()
         every { topicViewMapper.map(capture(slot)) } returns topicoView
 
-        topicService.listar("Kotlin Basico", pageable)
+        topicService.list("Kotlin Basico", pageable)
 
         verify(exactly = 0) { topicRepository.findAll(pageable) }
         verify(exactly = 1) { topicRepository.findByCourseName(any(), any()) }
@@ -54,7 +54,7 @@ class TopicServiceTest {
         val slot = slot<br.com.rhribeiro25.forum.model.Topic>()
         every { topicViewMapper.map(capture(slot)) } returns topicoView
 
-        topicService.listar(null, pageable)
+        topicService.list(null, pageable)
 
         verify(exactly = 1) { topicRepository.findAll(pageable) }
         verify(exactly = 0) { topicRepository.findByCourseName(any(), any()) }
@@ -70,7 +70,7 @@ class TopicServiceTest {
         every { topicRepository.findById(any()) } returns Optional.empty()
 
         val actual = assertThrows<br.com.rhribeiro25.forum.exception.NotFoundException> {
-            topicService.buscarPorId(2)
+            topicService.findById(2)
         }
 
         assertThat(actual.message).isEqualTo("Topic nao encontrado!")

@@ -1,5 +1,9 @@
 package br.com.rhribeiro25.forum.controller
 
+import br.com.rhribeiro25.forum.dto.AuthorityTopicForm
+import br.com.rhribeiro25.forum.dto.NewTopicForm
+import br.com.rhribeiro25.forum.dto.TopicView
+import br.com.rhribeiro25.forum.service.TopicService
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -12,39 +16,39 @@ import org.springframework.web.util.UriComponentsBuilder
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/topicos")
+@RequestMapping("/topics")
 @SecurityRequirement(name = "bearerAuth")
-class TopicController(private val service: br.com.rhribeiro25.forum.service.TopicService) {
+class TopicController(private val service: TopicService) {
 
     @GetMapping
-    fun listar(
-            @RequestParam(required = false) nomeCurso: String?,
-            @PageableDefault(size = 5, sort = ["dataCriacao"], direction = Sort.Direction.DESC) paginacao: Pageable
-    ) = service.listar(nomeCurso, paginacao)
+    fun list(
+        @RequestParam(required = false) courseName: String?,
+        @PageableDefault(size = 5, sort = ["createDate"], direction = Sort.Direction.DESC) pageable: Pageable
+    ) = service.list(courseName, pageable)
 
     @GetMapping("/{id}")
-    fun buscarPorId(@PathVariable id: Long) = service.buscarPorId(id)
+    fun findById(@PathVariable id: Long) = service.findById(id)
 
     @PostMapping
     @Transactional
-    fun cadastrar(
-        @RequestBody @Valid form: br.com.rhribeiro25.forum.dto.NewTopicForm,
+    fun create(
+        @RequestBody @Valid form: NewTopicForm,
         uriBuilder: UriComponentsBuilder
-    ): ResponseEntity<br.com.rhribeiro25.forum.dto.TopicView> {
-        val topicoView = service.cadastrar(form)
-        val uri = uriBuilder.path("/topicos/${topicoView.id}").build().toUri()
-        return ResponseEntity.created(uri).body(topicoView)
+    ): ResponseEntity<TopicView> {
+        val topicView = service.create(form)
+        val uri = uriBuilder.path("/topics/${topicView.id}").build().toUri()
+        return ResponseEntity.created(uri).body(topicView)
     }
 
     @PutMapping
     @Transactional
-    fun atualizar(@RequestBody @Valid form: br.com.rhribeiro25.forum.dto.AuthorityTopicForm): ResponseEntity<br.com.rhribeiro25.forum.dto.TopicView> {
-        val topicoView = service.atualizar(form)
-        return ResponseEntity.ok(topicoView)
+    fun update(@RequestBody @Valid form: AuthorityTopicForm): ResponseEntity<TopicView> {
+        val topicView = service.update(form)
+        return ResponseEntity.ok(topicView)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    fun deletar(@PathVariable id: Long) = service.deletar(id)
+    fun delete(@PathVariable id: Long) = service.delete(id)
 }

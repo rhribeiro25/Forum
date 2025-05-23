@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class EmailService(private val emailSender: JavaMailSender) {
 
-    fun enviar(subject: String, text: String, targetEmail: String) {
+    fun send(subject: String, text: String, targetEmail: String) {
         val message = SimpleMailMessage()
 
         message.setSubject(subject)

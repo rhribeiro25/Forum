@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 class SecurityConfiguration(
         private val userDetailsService: UserDetailsService,
-        private val jwtUtil: br.com.rhribeiro25.forum.config.JWTUtil
+        private val jwtUtil: JWTUtil
 )
     : WebSecurityConfigurerAdapter() {
 
@@ -36,11 +36,11 @@ class SecurityConfiguration(
         authenticated()?.
         and()
         http?.addFilterBefore(
-            br.com.rhribeiro25.forum.security.JWTLoginFilter(
+            JWTLoginFilter(
                 authManager = authenticationManager(),
                 jwtUtil = jwtUtil
             ), UsernamePasswordAuthenticationFilter().javaClass)
-        http?.addFilterBefore(br.com.rhribeiro25.forum.security.JWTAuthenticationFilter(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
+        http?.addFilterBefore(JWTAuthenticationFilter(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
         http?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 

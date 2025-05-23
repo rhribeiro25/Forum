@@ -1,19 +1,23 @@
 package br.com.rhribeiro25.forum.mapper
 
+import br.com.rhribeiro25.forum.dto.NewTopicForm
+import br.com.rhribeiro25.forum.model.Topic
+import br.com.rhribeiro25.forum.service.CourseService
+import br.com.rhribeiro25.forum.service.UserService
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 
 @Component
 class TopicFormMapper(
-    private val courseService: br.com.rhribeiro25.forum.service.CourseService,
-    private val userService: br.com.rhribeiro25.forum.service.UserService
-): br.com.rhribeiro25.forum.mapper.Mapper<br.com.rhribeiro25.forum.dto.NewTopicForm, br.com.rhribeiro25.forum.model.Topic> {
-    override fun map(t: br.com.rhribeiro25.forum.dto.NewTopicForm): br.com.rhribeiro25.forum.model.Topic {
-        return br.com.rhribeiro25.forum.model.Topic(
+    private val courseService: CourseService,
+    private val userService: UserService
+): Mapper<NewTopicForm, Topic> {
+    override fun map(t: NewTopicForm): Topic {
+        return Topic(
             title = t.title,
             message = t.message,
-            course = courseService.buscarPorId(t.idCourse),
-            author = userService.buscarPorId(t.idAuthor),
+            course = courseService.findById(t.idCourse),
+            author = userService.findById(t.idAuthor),
             updateDate = LocalDate.now()
         )
     }
