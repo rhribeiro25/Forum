@@ -20,7 +20,7 @@ class TopicRepositoryTest : br.com.rhribeiro25.forum.configuration.DatabaseConta
     @Test
     fun `deve gerar um relatorio`() {
         topicRepository.save(topico)
-        val relatorio = topicRepository.report()
+        val relatorio = topicRepository.findTopicPerCategory()
 
         assertThat(relatorio).isNotNull
         assertThat(relatorio.first()).isExactlyInstanceOf(br.com.rhribeiro25.forum.dto.TopicPerCategoryDto::class.java)

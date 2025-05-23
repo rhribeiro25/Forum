@@ -64,6 +64,6 @@ class TopicService(
     }
 
     fun report(): List<TopicPerCategoryDto> {
-        return repository.report()
+        return repository.findTopicPerCategory()
     }
 }

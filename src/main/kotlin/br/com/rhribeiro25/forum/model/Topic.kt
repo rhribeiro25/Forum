@@ -8,17 +8,17 @@ import javax.persistence.*
 @Entity
 data class Topic(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long? = null,
+    var id: Long? = null,
     var title: String,
     var message: String,
     val createDate: LocalDateTime = LocalDateTime.now(),
     @ManyToOne
-        val course: Course,
+    val course: Course,
     @ManyToOne
-        val author: User,
+    val author: User,
     @Enumerated(value = EnumType.STRING)
-        val status: TopicStatus = TopicStatus.NOT_ANSWERED,
+    val status: TopicStatus = TopicStatus.NOT_ANSWERED,
     @OneToMany(mappedBy = "topic")
-        val responses: List<Response> = ArrayList(),
+    val responses: List<Response> = ArrayList(),
     val updateDate: LocalDate? = null
 ) : Serializable
