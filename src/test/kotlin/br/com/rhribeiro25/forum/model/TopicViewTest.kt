@@ -8,7 +8,7 @@ object TopicViewTest {
         id = 1,
         title = "Kotlin Basico",
         message = "Aprendendo kotlin basico",
-        status = br.com.rhribeiro25.forum.model.TopicStatus.NOT_ANSWERED,
+        status = TopicStatus.NOT_ANSWERED,
         createDate = LocalDateTime.now(),
         updateDate = LocalDate.now()
     )
