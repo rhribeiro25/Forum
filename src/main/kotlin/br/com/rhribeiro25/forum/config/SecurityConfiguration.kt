@@ -26,9 +26,9 @@ class SecurityConfiguration(
         http?.
         csrf()?.disable()?.
         authorizeRequests()?.
-        antMatchers("/topicos")?.hasAuthority("LEITURA_ESCRITA")?.
-        antMatchers("/responses")?.hasAuthority("LEITURA_ESCRITA")?.
-        antMatchers(HttpMethod.GET,"/relatorios")?.hasAuthority("ADMIN")?.
+        antMatchers("/topics")?.hasAuthority("READ_WRITE")?.
+        antMatchers("/responses")?.hasAuthority("READ_WRITE")?.
+        antMatchers(HttpMethod.GET,"/reports")?.hasAuthority("ADMIN")?.
         antMatchers(HttpMethod.POST,"/login")?.permitAll()?.
         antMatchers(HttpMethod.GET, "/swagger-ui/*")?.permitAll()?.
         antMatchers(HttpMethod.GET,"/v3/api-docs/**")?.permitAll()?.

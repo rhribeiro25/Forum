@@ -1,22 +1,68 @@
 version: '3.8'
 
 services:
-  database:
+  ms:
+    container_name: ms
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_HOST=sgbd-mysql
+      - DATABASE_PORT=3306
+      - DATABASE_NAME=forum-db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=root
+      - REDIS_HOST=sgbd-redis
+      - REDIS_PORT=6379
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./forum_data/ms/tmp:/var/lib/app
+    depends_on:
+      - sgbd-mysql
+      - sgbd-redis
+
+  sgbd-mysql:
+    container_name: sgbd-mysql
     image: mysql:8
-    container_name: database
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: forum
+      MYSQL_DATABASE: 'forum-db'
     ports:
       - "3306:3306"
     volumes:
-      - ./database:/var/lib/mysql
+      - ./forum_data/sgbd/mysql:/var/lib/mysql
 
-  cache:
+  dbadmin:
+    container_name: dbadmin
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sgbd-mysql
+
+  sgbd-redis:
+    container_name: sgbd-redis
     image: redis:6.2
-    container_name: cache
+    restart: always
     ports:
       - "6379:6379"
+    volumes:
+      - ./forum_data/sgbd/redis:/data
+
+  redis-commander:
+    container_name: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      REDIS_HOSTS: local:sgbd-redis:6379
+    ports:
+      - "8082:8081"
+    depends_on:
+      - sgbd-redis
 
 networks:
   default:

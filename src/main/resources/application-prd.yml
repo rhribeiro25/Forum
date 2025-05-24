@@ -1,4 +1,9 @@
+server:
+  port: 9090
+
 spring:
+  profiles:
+    active: prd
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://wb39lt71kvkgdmw0.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/t8j812ia76hp8846
