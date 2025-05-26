@@ -1,1 +1,0 @@
-alter table topic add column update_date date

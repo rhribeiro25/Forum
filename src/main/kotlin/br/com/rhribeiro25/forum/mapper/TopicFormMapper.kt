@@ -6,6 +6,7 @@ import br.com.rhribeiro25.forum.service.CourseService
 import br.com.rhribeiro25.forum.service.UserService
 import org.springframework.stereotype.Component
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Component
 class TopicFormMapper(
@@ -18,7 +19,7 @@ class TopicFormMapper(
             message = t.message,
             course = courseService.findById(t.idCourse),
             author = userService.findById(t.idAuthor),
-            updateDate = LocalDate.now()
+            updateDate = LocalDateTime.now()
         )
     }
 

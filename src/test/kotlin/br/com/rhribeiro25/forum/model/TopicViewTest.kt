@@ -10,6 +10,6 @@ object TopicViewTest {
         message = "Aprendendo kotlin basico",
         status = TopicStatus.NOT_ANSWERED,
         createDate = LocalDateTime.now(),
-        updateDate = LocalDate.now()
+        updateDate = LocalDateTime.now()
     )
 }

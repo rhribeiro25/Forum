@@ -20,5 +20,5 @@ data class Topic(
     val status: TopicStatus = TopicStatus.NOT_ANSWERED,
     @OneToMany(mappedBy = "topic")
     val responses: List<Response> = ArrayList(),
-    val updateDate: LocalDate? = null
+    val updateDate: LocalDateTime? = LocalDateTime.now(),
 ) : Serializable
