@@ -19,12 +19,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 class SecurityConfiguration(
     private val userDetailsService: UserDetailsService,
-    private val jwtUtil: JWTUtil,
-    private val TOPICS: String = "/topics",
-    private val RESPONSES: String = "/responses",
-    private val REPORTS: String = "/reports"
+    private val jwtUtil: JWTUtil
 )
     : WebSecurityConfigurerAdapter() {
+
+    private val TOPICS = "/topics"
+    private val RESPONSES = "/responses"
+    private val REPORTS = "/reports"
         
     override fun configure(http: HttpSecurity?) {
         http?.
