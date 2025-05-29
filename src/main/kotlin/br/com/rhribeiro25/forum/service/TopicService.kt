@@ -10,6 +10,7 @@ import br.com.rhribeiro25.forum.mapper.TopicViewMapper
 import br.com.rhribeiro25.forum.repository.TopicRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.cache.annotation.Caching
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -21,8 +22,7 @@ class TopicService(
     private val topicFormMapper: TopicFormMapper,
     private val notFoundMessage: String = "Topic nao encontrado!"
 ) {
-
-    @Cacheable(cacheNames = ["Topics"], key = "#root.method.name")
+    @Cacheable(cacheNames = ["TopicsByCourse"], key = "#courseName ?: 'all'")
     fun list(
         courseName: String?,
         pageable: Pageable
@@ -36,20 +36,30 @@ class TopicService(
         }
     }
 
+    @Cacheable(cacheNames = ["TopicById"], key = "#id")
     fun findById(id: Long): TopicView {
         val topic = repository.findById(id)
                 .orElseThrow{ NotFoundException(notFoundMessage) }
         return topicViewMapper.map(topic)
     }
 
-    @CacheEvict(cacheNames = ["Topics"], allEntries = true)
+    @Caching(
+        evict = [
+            CacheEvict(cacheNames = ["TopicsByCourse"], allEntries = true),
+            CacheEvict(cacheNames = ["TopicById"], allEntries = true)
+        ]
+    )
     fun create(form: NewTopicForm): TopicView {
         val topic = topicFormMapper.map(form)
         repository.save(topic)
         return topicViewMapper.map(topic)
     }
-
-    @CacheEvict(cacheNames = ["Topics"], allEntries = true)
+    @Caching(
+        evict = [
+            CacheEvict(cacheNames = ["TopicsByCourse"], allEntries = true),
+            CacheEvict(cacheNames = ["TopicById"], key = "#form.id")
+        ]
+    )
     fun update(form: AuthorityTopicForm): TopicView {
         val topic = repository.findById(form.id)
                 .orElseThrow{ NotFoundException(notFoundMessage) }
@@ -58,7 +68,12 @@ class TopicService(
         return topicViewMapper.map(topic)
     }
 
-    @CacheEvict(cacheNames = ["Topics"], allEntries = true)
+    @Caching(
+        evict = [
+            CacheEvict(cacheNames = ["TopicsByCourse"], allEntries = true),
+            CacheEvict(cacheNames = ["TopicById"], key = "#id")
+        ]
+    )
     fun delete(id: Long) {
         repository.deleteById(id)
     }
