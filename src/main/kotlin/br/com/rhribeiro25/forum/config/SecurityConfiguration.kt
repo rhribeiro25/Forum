@@ -23,31 +23,24 @@ class SecurityConfiguration(
 )
     : WebSecurityConfigurerAdapter() {
 
-    private val TOPICS = "/topics"
-    private val RESPONSES = "/responses"
-    private val REPORTS = "/reports"
+    private val API = "/api/**";
+    private val ADMIN = "/admin/**";
         
     override fun configure(http: HttpSecurity?) {
         http?.
         csrf()?.disable()?.
         authorizeRequests()?.
-        antMatchers(HttpMethod.GET, TOPICS)?.hasAuthority(AuthorityEnum.READ.name)?.
-        antMatchers(HttpMethod.PUT, TOPICS)?.hasAuthority(AuthorityEnum.WRITE.name)?.
-        antMatchers(HttpMethod.POST, TOPICS)?.hasAuthority(AuthorityEnum.WRITE.name)?.
-        antMatchers(HttpMethod.DELETE, TOPICS)?.hasAuthority(AuthorityEnum.DELETE.name)?.
+        antMatchers(HttpMethod.GET, API)?.hasAuthority(AuthorityEnum.READ.name)?.
+        antMatchers(HttpMethod.PUT, API)?.hasAuthority(AuthorityEnum.WRITE.name)?.
+        antMatchers(HttpMethod.POST, API)?.hasAuthority(AuthorityEnum.WRITE.name)?.
+        antMatchers(HttpMethod.DELETE, API)?.hasAuthority(AuthorityEnum.DELETE.name)?.
 
-        antMatchers(HttpMethod.GET, RESPONSES)?.hasAuthority(AuthorityEnum.READ.name)?.
-        antMatchers(HttpMethod.PUT, RESPONSES)?.hasAuthority(AuthorityEnum.WRITE.name)?.
-        antMatchers(HttpMethod.POST, RESPONSES)?.hasAuthority(AuthorityEnum.WRITE.name)?.
-        antMatchers(HttpMethod.DELETE, RESPONSES)?.hasAuthority(AuthorityEnum.DELETE.name)?.
-
-        antMatchers(HttpMethod.GET, REPORTS)?.hasAuthority(AuthorityEnum.ADMIN.name)?.
+        antMatchers(ADMIN)?.hasAuthority(AuthorityEnum.ADMIN.name)?.
 
         antMatchers(HttpMethod.POST,"/login")?.permitAll()?.
         antMatchers(HttpMethod.GET, "/swagger-ui/*")?.permitAll()?.
         antMatchers(HttpMethod.GET,"/v3/api-docs/**")?.permitAll()?.
-        anyRequest()?.
-        authenticated()?.
+        anyRequest()?.authenticated()?.
         and()
         http?.addFilterBefore(
             JWTLoginFilter(

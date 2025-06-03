@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/topics")
+@RequestMapping("/api/topics")
 @SecurityRequirement(name = "bearerAuth")
 class TopicController(private val service: TopicService) {
 
@@ -36,7 +36,7 @@ class TopicController(private val service: TopicService) {
         uriBuilder: UriComponentsBuilder
     ): ResponseEntity<TopicView> {
         val topicView = service.create(form)
-        val uri = uriBuilder.path("/topics/${topicView.id}").build().toUri()
+        val uri = uriBuilder.path("/api/topics/${topicView.id}").build().toUri()
         return ResponseEntity.created(uri).body(topicView)
     }
 

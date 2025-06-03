@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/responses")
+@RequestMapping("/api/responses")
 @SecurityRequirement(name = "bearerAuth")
 class ResponseController(
     private val responseService: ResponseService
